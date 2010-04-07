@@ -8,15 +8,25 @@ package com.ribbit.rest.constants;
  * To change this template use File | Settings | File Templates.
  */
 public enum UserFilter {
-     final static String BY_ACTIVE_PROFILE = "activeProfile"
-     final static String BY_CREATED_BY = "createdBy"
-     final static String BY_CREATED_ON = "createdOn"
-     final static String BY_DIALING_PLAN = "dialingPlan"
-     final static String BY_DOMAIN = "domain.name"
-     final static String BY_FIRST_NAME = "firstName"
-     final static String BY_LAST_NAME = "lastName"
-     final static String BY_LAST_USED = "lastUsed"
-     final static String BY_LOGIN = "login"
-     final static String BY_PASSWORD_STATUS = "pwdStatus"
-     final static String BY_USER_ID = "guid" 
+     BY_ACTIVE_PROFILE("activeProfile"),
+     BY_CREATED_BY("createdBy"),
+     BY_CREATED_ON("createdOn"),
+     BY_DIALING_PLAN("dialingPlan"),
+     BY_DOMAIN("domain.name"),
+     BY_FIRST_NAME("firstName"),
+     BY_LAST_NAME("lastName"),
+     BY_LAST_USED("lastUsed"),
+     BY_LOGIN("login"),
+     BY_PASSWORD_STATUS("pwdStatus"),
+     BY_USER_ID("guid");
+
+    private String value
+
+    public UserFilter(value) {
+        this.value = value
+    }
+
+    public String toString() {
+        return value
+    }
 }

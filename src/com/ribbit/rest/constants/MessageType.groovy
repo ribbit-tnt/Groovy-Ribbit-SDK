@@ -8,12 +8,22 @@ package com.ribbit.rest.constants
  * To change this template use File | Settings | File Templates.
  */
 public enum MessageType {
-    final static String BROADCAST_VOICEMAIL = "BroadcastVoiceMail"
-    final static String EMAIL = "email"
-    final static String INBOUND_AUDIO_MESSAGE = "InboundAudioMessage"
-    final static String INBOUND_SMS = "InboundSms"
-    final static String OUTBOUND_AUDIO_MESSAGE = "OutboundAudioMessage"
-    final static String OUTBOUND_SMS = "OutboundSms"
-    final static String SMS = "sms"
-    final static String VOICEMAIL = "Voicemail"
+    BROADCAST_VOICEMAIL("BroadcastVoiceMail"),
+    EMAIL("email"),
+    INBOUND_AUDIO_MESSAGE("InboundAudioMessage"),
+    INBOUND_SMS("InboundSms"),
+    OUTBOUND_AUDIO_MESSAGE("OutboundAudioMessage"),
+    OUTBOUND_SMS("OutboundSms"),
+    SMS("sms"),
+    VOICEMAIL("Voicemail");
+
+    private String value;
+
+    public MessageType(value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value
+    }
 }

@@ -7,14 +7,24 @@ package com.ribbit.rest.constants
  * Time: 1:24:21 PM
  */
 public enum MessageStatus {
-    static final DELETED = "DELETED"
-    static final DELIVERED = "DELIVERED"
-    static final INITIAL = "INITIAL"
-    static final FAILED = "FAILED"
-    static final NEW = "NEW"
-    static final READ = "READ"
-    static final RECEIVED = "RECEIVED"
-    static final SENT = "SENT"
-    static final UNKNOWN = "UNKNOWN"
-    static final URGENT = "URGENT"
+    DELETED("DELETED"),
+    DELIVERED("DELIVERED"),
+    INITIAL("INITIAL"),
+    FAILED("FAILED"),
+    NEW("NEW"),
+    READ("READ"),
+    RECEIVED("RECEIVED"),
+    SENT("SENT"),
+    UNKNOWN("UNKNOWN"),
+    URGENT("URGENT");
+
+    private String value
+
+    public MessageStatus(value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value
+    }
 }

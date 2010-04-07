@@ -7,6 +7,17 @@ package com.ribbit.rest.constants
  * Time: 12:05:24 PM
  */
 public enum Voice {
-    static final EN_US = 'en_US/classic'
-    static final EN_UK = 'en_UK/classic'
+   EN_US('en_US/classic'),
+   EN_UK('en_UK/classic');
+
+   private String value
+
+
+    public Voice(value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value
+    }
 }

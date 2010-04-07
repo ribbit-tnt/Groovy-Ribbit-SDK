@@ -8,5 +8,15 @@ package com.ribbit.rest.constants
  * To change this template use File | Settings | File Templates.
  */
 public enum ServiceType {
-    static final TRANSCRIPTION = "Transcription"
+    TRANSCRIPTION("Transcription")
+
+    private String value
+
+    public ServiceType(value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value
+    }
 }

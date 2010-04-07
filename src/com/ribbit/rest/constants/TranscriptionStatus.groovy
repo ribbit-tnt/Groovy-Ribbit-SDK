@@ -8,7 +8,18 @@ package com.ribbit.rest.constants
  * To change this template use File | Settings | File Templates.
  */
 public enum TranscriptionStatus {
-   final static String FAILED = "notAvailable"
-   final static String PENDING = "pending"
-   final static String TRANSCRIBED = "transcribed"
+    FAILED("notAvailable"),
+    PENDING("pending"),
+    TRANSCRIBED("transcribed");
+
+    private String value;
+
+
+    public TranscriptionStatus(value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value
+    }
 }

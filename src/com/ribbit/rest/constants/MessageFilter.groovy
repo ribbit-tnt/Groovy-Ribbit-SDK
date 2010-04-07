@@ -8,15 +8,27 @@ package com.ribbit.rest.constants
  * To change this template use File | Settings | File Templates.
  */
 public enum MessageFilter {
-     final static String BY_DESTINATION = "destination"
-     final static String BY_FOLDER = "folder"
-     final static String BY_MEDIA_LOCATION = "mediaLocation"
-     final static String BY_MESSAGE_TYPE = "messageType"
-     final static String BY_NOTES = "notes"
-     final static String BY_SENDER = "sender"
-     final static String BY_STATUS = "messageStatus"
-     final static String BY_TAGS = "tags"
-     final static String BY_TITLE = "title"
-     final static String BY_TRANSCRIPTION_STATUS = "transcriptionStatus"
-     final static String BY_USER_ID = "uid"
+     BY_DESTINATION("destination"),
+     BY_FOLDER("folder"),
+     BY_MEDIA_LOCATION("mediaLocation"),
+     BY_MESSAGE_TYPE("messageType"),
+     BY_NOTES("notes"),
+     BY_SENDER("sender"),
+     BY_STATUS("messageStatus"),
+     BY_TAGS("tags"),
+     BY_TITLE("title"),
+     BY_TRANSCRIPTION_STATUS("transcriptionStatus"),
+     BY_USER_ID("uid");
+
+     private String value
+
+
+    public MessageFilter(value) {
+        this.value = value;
+    }
+
+
+    public String toString() {
+        return value
+    }
 }
