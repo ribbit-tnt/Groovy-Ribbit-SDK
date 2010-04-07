@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="groovy-ribbit">
+    <output-path>$PROJECT_DIR$/out/artifacts/groovy_ribbit</output-path>
+    <root id="archive" name="groovy_ribbit.jar">
+      <element id="module-output" name="GroovyRibbit" />
+    </root>
+  </artifact>
+</component>
