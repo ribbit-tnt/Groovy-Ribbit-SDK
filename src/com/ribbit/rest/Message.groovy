@@ -29,7 +29,7 @@ class Message extends Resource {
     String folder
     List<MessageDestination> recipients = new ArrayList<MessageDestination>()
 
-
+    private Message() {}
     public Message(RibbitConfig config) {
         this.config = config
     }

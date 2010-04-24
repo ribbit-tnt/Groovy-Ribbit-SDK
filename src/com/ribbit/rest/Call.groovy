@@ -32,7 +32,7 @@ class Call extends Resource {
     boolean outbound
     List<String> recordings
 
-    public Call() { }
+    private Call() { }
 
     public Call(RibbitConfig config) {
         this.config = config

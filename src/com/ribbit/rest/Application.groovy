@@ -1,5 +1,7 @@
 package com.ribbit.rest
 
+import org.joda.time.DateTime
+
 /**
  * Created by IntelliJ IDEA.
  * User: jwill
@@ -7,5 +9,6 @@ package com.ribbit.rest
  * Time: 1:30:48 AM
  * To change this template use File | Settings | File Templates.
  */
-class Application {
+class Application extends Resource {
+
 }

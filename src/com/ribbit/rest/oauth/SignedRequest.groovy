@@ -162,7 +162,7 @@ public final class SignedRequest {
         }
 
         headers.add(createAuthHeader(uri, method, requestBody, xAuthUserName, xAuthPassword))
-        headers.add(new NameValuePair("User-Agent", "ribbit_java_library_1.5.5"))
+        headers.add(new NameValuePair("User-Agent", "ribbit_groovy_library_0.0.1"))
         headers.add(new NameValuePair("Accept", (acceptType == null) ? "application/json" : acceptType))
         return headers
     }

@@ -1,6 +1,8 @@
 package com.ribbit.rest
 
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import com.ribbit.rest.deserializers.Utils
 import com.ribbit.rest.exceptions.InvalidUserNameOrPasswordException
 import com.ribbit.rest.exceptions.NotAuthorizedException
@@ -8,10 +10,8 @@ import com.ribbit.rest.exceptions.RibbitException
 import com.ribbit.rest.oauth.SignedRequest
 import com.ribbit.rest.util.Util
 import com.ribbit.rest.util.json.JSONException
-import java.util.logging.Logger
-import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-import com.google.gson.JsonParser
+import java.util.logging.Logger
 
 /**
  * Created by IntelliJ IDEA.
@@ -193,13 +193,13 @@ class Ribbit {
 
         def req = new SignedRequest(config)
         String uri = "devices/${userId}"
-        
+
         String serviceResult = req.get(uri);
 
         try {
             Type listType = new TypeToken<Collection<Device>>() {}.getType()
             def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
-            def result = (List)Utils.deserialize(obj.toString(), listType)
+            def result = (List) Utils.deserialize(obj.toString(), listType)
             return result//.asImmutable()
         } catch (JSONException e) {
             throw new RibbitException("An unexpected error occured parsing the response " + e.getMessage());
@@ -208,7 +208,7 @@ class Ribbit {
 
     }
 
-    public  Application getApplication()  throws RibbitException  {
+    public Application getApplication() throws RibbitException {
 
         ArrayList<String> exceptions = new ArrayList<String>();
 
@@ -224,13 +224,12 @@ class Ribbit {
         String domainValue = Util.isDefined(domain) ? domain : config.getDomain();
         String applicationIdValue = Util.isDefined(applicationId) ? applicationId : config.getApplicationId();
         String uri = "apps/" + domainValue + ":" + applicationIdValue;
-     //   ApplicationResource result = null;
+        //   ApplicationResource result = null;
         String serviceResult = signedRequest.get(uri);
 
         try {
 
-
-       //     result = new ApplicationResource((new JSONObject(serviceResult)).getJSONObject("entry"));
+            //     result = new ApplicationResource((new JSONObject(serviceResult)).getJSONObject("entry"));
 
         } catch (JSONException e) {
             throw new RibbitException("An unexpected error occured parsing the response " + e.getMessage());
@@ -275,7 +274,7 @@ class Ribbit {
         try {
             Type listType = new TypeToken<Collection<Service>>() {}.getType()
             def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
-            def result = (List)Utils.deserialize(obj.toString(), listType)
+            def result = (List) Utils.deserialize(obj.toString(), listType)
             result.each {
                 it.config = config
             }
@@ -285,6 +284,33 @@ class Ribbit {
         }
     }
 
+    User getUser(String userId) {
+
+        ArrayList<String> exceptions = new ArrayList<String>();
+
+        if (!Util.isValidString(userId)) {
+            exceptions.add("userId is required");
+        }
+        if (exceptions.size() > 0) {
+            throw new IllegalArgumentException(Util.join(exceptions, ";"));
+        }
+
+        def req = new SignedRequest(config)
+        String uri = "users/${userId}"
+        String serviceResult = signedRequest.get(uriToCall);
+
+        def result
+        try {
+            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
+            result = Utils.deserialize(obj.toString(), User.class)
+
+        } catch (JSONException e) {
+            throw new RibbitException("An unexpected error occured parsing the response " + e.getMessage())
+        }
+        return result
+
+    }
+
     List getUsers() {
         def req = new SignedRequest(config)
         String q = Util.createQueryString(null, null, null, null);
@@ -292,9 +318,9 @@ class Ribbit {
         String serviceResult = req.get(uri)
 
         try {
-            Type listType = new TypeToken<Collection<User>>(){}.getType()
+            Type listType = new TypeToken<Collection<User>>() {}.getType()
             def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
-            def result = (List)Utils.deserialize(obj.toString(), listType)
+            def result = (List) Utils.deserialize(obj.toString(), listType)
             result.each {
                 it.config = config
             }
@@ -305,7 +331,7 @@ class Ribbit {
     }
 
     Call getCall(String callId) {
-         if (config.getAccountId() == null) {
+        if (config.getAccountId() == null) {
             throw new NotAuthorizedException()
         }
         String userId = config.getActiveUserId()
@@ -316,7 +342,7 @@ class Ribbit {
         String uri = "calls/${userId}/${callId}"
         def call
         String serviceResult = req.get(uri)
-         try {
+        try {
             def obj = new JsonParser().parse(serviceResult).getAt("entry")
             call = Utils.deserialize(obj.toString(), Call.class)
             call.config = config
@@ -324,5 +350,42 @@ class Ribbit {
             throw new RibbitException("An unexpected error occured parsing the response " + e.getMessage());
         }
         return call
+    }
+
+    List getCalls(Map map) {
+        if (config.getAccountId() == null) {
+            throw new NotAuthorizedException()
+        }
+        String userId = config.getActiveUserId()
+
+          def exceptions = new ArrayList<String>()
+
+        String pagingParamError = Util.checkPagingParameters(map?.startIndex, map?.count);
+        if (pagingParamError != null) {
+            exceptions.add(pagingParamError);
+        }
+
+        String filterParamError = Util.checkFilterParameters(map?.filterBy, map?.filterValue);
+        if (filterParamError != null) {
+            exceptions.add(filterParamError);
+        }
+
+        if (exceptions.size() > 0) {
+            throw new IllegalArgumentException(exceptions.join(";"))
+        }
+        def req = new SignedRequest(config)
+        String q = Util.createQueryString(map?.startIndex, map?.count, map?.filterBy, map?.filterValue);
+        String uri = "calls/" + userId + q;
+        String serviceResult = req.get(uri);
+
+        try {
+            Type listType = new TypeToken<Collection<Call>>() {}.getType()
+            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
+            def result = (List) Utils.deserialize(obj.toString(), listType)
+            return result
+        } catch (JSONException e) {
+            e.printStackTrace()
+        }
+
     }
 }
