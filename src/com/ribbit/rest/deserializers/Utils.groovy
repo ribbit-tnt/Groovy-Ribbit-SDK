@@ -11,6 +11,8 @@ import com.ribbit.rest.Service
 import com.ribbit.rest.User
 import com.ribbit.rest.Call
 import com.ribbit.rest.CallLeg
+import com.ribbit.rest.Message
+import com.ribbit.rest.MessageDestination
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,6 +32,7 @@ class Utils {
             builder.registerDeserializer(Call.class, new CallDeserializer())
             builder.registerDeserializer(CallLeg.class, new CallLegDeserializer())
             builder.registerDeserializer(FolderResource.class, new FolderResourceDeserializer())
+            builder.registerDeserializer(Message.class , new MessageDeserializer())
             gson = builder.create()
     }
 

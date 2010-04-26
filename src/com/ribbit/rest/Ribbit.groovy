@@ -358,16 +358,16 @@ class Ribbit {
         }
         String userId = config.getActiveUserId()
 
-          def exceptions = new ArrayList<String>()
+        def exceptions = new ArrayList<String>()
 
         String pagingParamError = Util.checkPagingParameters(map?.startIndex, map?.count);
         if (pagingParamError != null) {
-            exceptions.add(pagingParamError);
+            exceptions.add(pagingParamError)
         }
 
         String filterParamError = Util.checkFilterParameters(map?.filterBy, map?.filterValue);
         if (filterParamError != null) {
-            exceptions.add(filterParamError);
+            exceptions.add(filterParamError)
         }
 
         if (exceptions.size() > 0) {
@@ -376,7 +376,7 @@ class Ribbit {
         def req = new SignedRequest(config)
         String q = Util.createQueryString(map?.startIndex, map?.count, map?.filterBy, map?.filterValue);
         String uri = "calls/" + userId + q;
-        String serviceResult = req.get(uri);
+        String serviceResult = req.get(uri)
 
         try {
             Type listType = new TypeToken<Collection<Call>>() {}.getType()
@@ -385,6 +385,75 @@ class Ribbit {
             return result
         } catch (JSONException e) {
             e.printStackTrace()
+        }
+
+    }
+
+    public Message getMessage(Map map) {
+        if (config.getAccountId() == null) {
+            throw new NotAuthorizedException()
+        }
+        String userId = config.getActiveUserId()
+
+        ArrayList<String> exceptions = [ ]
+
+        if (!Util.isValidString(map.messageId)) {
+            exceptions.add("messageId is required");
+        }
+        if (!Util.isValidString(map.folder)) {
+            exceptions.add("folder is required");
+        }
+        if (exceptions.size() > 0) {
+            throw new IllegalArgumentException(exceptions.join(";"));
+        }
+        def req = new SignedRequest(config)
+        String uriToCall = "messages/${userId}/${map.folder}/${map.messageId}"
+        String serviceResult = req.get(uriToCall);
+
+        try {
+            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
+            def message = Utils.deserialize(obj.toString(), Message.class)
+            return message
+        } catch (JSONException e) {
+            throw e
+        }
+    }
+
+    public List getMessages(Map map) throws RibbitException {
+if (config.getAccountId() == null) {
+            throw new NotAuthorizedException()
+        }
+        String userId = config.getActiveUserId()
+
+        ArrayList<String> exceptions = new ArrayList<String>();
+
+        String pagingParamError = Util.checkPagingParameters(map.startIndex, map.count)
+        if (pagingParamError != null) {
+            exceptions.add(pagingParamError)
+        }
+
+        String filterParamError = Util.checkFilterParameters(map.filterBy, map.filterValue)
+        if (filterParamError != null) {
+            exceptions.add(filterParamError)
+        }
+
+        if (exceptions.size() > 0) {
+            throw new IllegalArgumentException(exceptions.join(";"))
+        }
+
+        def req = new SignedRequest(config)
+        String q = Util.createQueryString(map.startIndex, map.count, map.filterBy, map.filterValue);
+        String uri = "messages/${userId}" + q;
+        String serviceResult = req.get(uri);
+
+        try {
+
+            Type listType = new TypeToken<Collection<Message>>() {}.getType()
+            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
+            def result = (List) Utils.deserialize(obj.toString(), listType)
+            return result
+        } catch (JSONException e) {
+            throw new RibbitException("An unexpected error occured parsing the response " + e.getMessage());
         }
 
     }

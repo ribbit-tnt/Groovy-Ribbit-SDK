@@ -6,6 +6,7 @@ import com.ribbit.rest.oauth.SignedRequest
 import com.ribbit.rest.util.Util
 import com.ribbit.rest.util.json.JSONException
 import com.ribbit.rest.util.json.JSONObject
+import org.joda.time.DateTime
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +24,7 @@ class Message extends Resource {
     String from
     String mediaUri
     List<String> mediaItems = new ArrayList<String>()
-    String time
+    DateTime time
     Boolean newMessage
     Boolean urgentMessage
     String folder
