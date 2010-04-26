@@ -1,10 +1,14 @@
 Current Status:
 - Create calls
 - Get status of a single call
-- Get devices
-- Set/Get services
+- Get device(s)
+- Update devices
+- Set/Get service(s)
+- Get user(s)
+- Get message(s)
 - Send SMS
-- Upload/download files
+- Upload/download/delete files
+- Create folders
 
 TODO:
 Everything else
