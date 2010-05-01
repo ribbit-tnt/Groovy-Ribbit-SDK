@@ -411,7 +411,7 @@ class Ribbit {
         String serviceResult = req.get(uriToCall);
 
         try {
-            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).getAsJsonArray("entry")
+            def obj = ((JsonObject) new JsonParser().parse(serviceResult)).get("entry")
             def message = Utils.deserialize(obj.toString(), Message.class)
             return message
         } catch (JSONException e) {
@@ -432,7 +432,7 @@ if (config.getAccountId() == null) {
             exceptions.add(pagingParamError)
         }
 
-        String filterParamError = Util.checkFilterParameters(map.filterBy, map.filterValue)
+        String filterParamError = Util.checkFilterParameters(map.filterBy.toString(), map.filterValue)
         if (filterParamError != null) {
             exceptions.add(filterParamError)
         }
@@ -442,7 +442,7 @@ if (config.getAccountId() == null) {
         }
 
         def req = new SignedRequest(config)
-        String q = Util.createQueryString(map.startIndex, map.count, map.filterBy, map.filterValue);
+        String q = Util.createQueryString(map.startIndex, map.count, map.filterBy.toString(), map.filterValue);
         String uri = "messages/${userId}" + q;
         String serviceResult = req.get(uri);
 

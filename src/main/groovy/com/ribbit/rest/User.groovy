@@ -22,4 +22,10 @@ class User extends Resource {
      Long accountId
      DateTime createdOn
      String callerId
+
+    def create() {
+
+    }
+
+    
 }

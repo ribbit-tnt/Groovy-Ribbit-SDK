@@ -54,13 +54,3 @@ class CallDeserializer implements JsonDeserializer<Call> {
     }
 
 }
-
-/*
-    CallStatus status
-    List<CallLeg> legs
-    def callURI
-    def callID
-    String callerId
-    String mode
-    String announce
-    */
