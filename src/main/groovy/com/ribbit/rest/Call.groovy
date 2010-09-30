@@ -48,14 +48,14 @@ class Call extends Resource {
         if (!userId) {
             throw new NotAuthorizedException()
         }
-
+	def exceptions = []
         def req = new SignedRequest(config)
         def vars = new JSONObject()
         try {
             def legIds = legs.collect {it.id}
             vars.put("legs", legIds)
-            if (!Util.isValidStringIfDefined(callerid)) {
-                vars.put("callerid", callerid)
+            if (!Util.isValidStringIfDefined(callerId)) {
+                vars.put("callerid", callerId)
                 exceptions.add("When defined, callerid must be a string of one or more characters");
             }
             if (!Util.isValidStringIfDefined(mode)) {
